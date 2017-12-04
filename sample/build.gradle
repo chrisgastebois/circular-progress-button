@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-
 apply plugin: 'com.android.application'
 
 android {
@@ -21,14 +19,7 @@ android {
     }
 }
 
-def getDate() {
-    def formatter = new SimpleDateFormat('dd-MM-yyyy');
-    def date = new Date();
-    return formatter.format(date);
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3-SNAPSHOT@aar'
     compile project(':library')
 }
