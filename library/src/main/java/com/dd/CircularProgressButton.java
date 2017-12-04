@@ -185,54 +185,43 @@ public class CircularProgressButton extends Button {
     }
 
     private void initAttributes(Context context, AttributeSet attributeSet) {
-        TypedArray attr = getTypedArray(context, attributeSet, R.styleable.CircularProgressButton);
-        if (attr == null) {
-            return;
-        }
+        final TypedArray attr = getContext().obtainStyledAttributes(attributeSet, R.styleable.CircularProgressButton);
+        if (attr != null) {
+            try {
+                mIdleText = attr.getString(R.styleable.CircularProgressButton_cpb_textIdle);
+                mCompleteText = attr.getString(R.styleable.CircularProgressButton_cpb_textComplete);
+                mErrorText = attr.getString(R.styleable.CircularProgressButton_cpb_textError);
+                mProgressText = attr.getString(R.styleable.CircularProgressButton_cpb_textProgress);
 
-        try {
+                mIconComplete = attr.getResourceId(R.styleable.CircularProgressButton_cpb_iconComplete, 0);
+                mIconError = attr.getResourceId(R.styleable.CircularProgressButton_cpb_iconError, 0);
+                mCornerRadius = attr.getDimension(R.styleable.CircularProgressButton_cpb_cornerRadius, 0);
+                mPaddingProgress = attr.getDimensionPixelSize(R.styleable.CircularProgressButton_cpb_paddingProgress, 0);
 
-            mIdleText = attr.getString(R.styleable.CircularProgressButton_cpb_textIdle);
-            mCompleteText = attr.getString(R.styleable.CircularProgressButton_cpb_textComplete);
-            mErrorText = attr.getString(R.styleable.CircularProgressButton_cpb_textError);
-            mProgressText = attr.getString(R.styleable.CircularProgressButton_cpb_textProgress);
+                int blue = getColor(R.color.cpb_blue);
+                int white = getColor(R.color.cpb_white);
+                int grey = getColor(R.color.cpb_grey);
 
-            mIconComplete = attr.getResourceId(R.styleable.CircularProgressButton_cpb_iconComplete, 0);
-            mIconError = attr.getResourceId(R.styleable.CircularProgressButton_cpb_iconError, 0);
-            mCornerRadius = attr.getDimension(R.styleable.CircularProgressButton_cpb_cornerRadius, 0);
-            mPaddingProgress = attr.getDimensionPixelSize(R.styleable.CircularProgressButton_cpb_paddingProgress, 0);
+                int idleStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorIdle, R.color.cpb_idle_state_selector);
+                mIdleColorState = getResources().getColorStateList(idleStateSelector);
 
-            int blue = getColor(R.color.cpb_blue);
-            int white = getColor(R.color.cpb_white);
-            int grey = getColor(R.color.cpb_grey);
+                int completeStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorComplete, R.color.cpb_complete_state_selector);
+                mCompleteColorState = getResources().getColorStateList(completeStateSelector);
 
-            int idleStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorIdle,
-                    R.color.cpb_idle_state_selector);
-            mIdleColorState = getResources().getColorStateList(idleStateSelector);
+                int errorStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorError, R.color.cpb_error_state_selector);
+                mErrorColorState = getResources().getColorStateList(errorStateSelector);
 
-            int completeStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorComplete,
-                    R.color.cpb_complete_state_selector);
-            mCompleteColorState = getResources().getColorStateList(completeStateSelector);
-
-            int errorStateSelector = attr.getResourceId(R.styleable.CircularProgressButton_cpb_selectorError,
-                    R.color.cpb_error_state_selector);
-            mErrorColorState = getResources().getColorStateList(errorStateSelector);
-
-            mColorProgress = attr.getColor(R.styleable.CircularProgressButton_cpb_colorProgress, white);
-            mColorIndicator = attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicator, blue);
-            mColorIndicatorBackground =
-                    attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicatorBackground, grey);
-        } finally {
-            attr.recycle();
+                mColorProgress = attr.getColor(R.styleable.CircularProgressButton_cpb_colorProgress, white);
+                mColorIndicator = attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicator, blue);
+                mColorIndicatorBackground = attr.getColor(R.styleable.CircularProgressButton_cpb_colorIndicatorBackground, grey);
+            } finally {
+                attr.recycle();
+            }
         }
     }
 
     protected int getColor(int id) {
         return getResources().getColor(id);
-    }
-
-    protected TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
-        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
     }
 
     @Override
